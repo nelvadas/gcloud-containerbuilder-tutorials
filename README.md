@@ -1,28 +1,38 @@
 
-# Build the container image and push it to GCR
+# Table of Contents
+1. [Google Cloud Builder](#gcb)
+2. [Docker push](#dockerpush)
+3. [Skopeo](#skopeo)
 
-GCP offers various services to build and host containers apps including a private container registry GCR.
-In case you want to deploy a k8s cluster on GCP, it may be a good idea to have a local container registry in GCP infrastructure.
-In case you are relying on external registries, you can end up with a high latency when pulling images
-GCR store users images in a Google Storage Bucket.
+# Landing of container's images on Google Container Registry
+
+Google Cloud Platform (GCP) offers various services to build and host containers apps including a private container registry: Google Container Registry (GCR).
+In case you want to deploy a cloud app on GCP, it may be a good idea to have a local container registry in GCP infrastructure.
+In case you are relying on external registries, you can end up with a high latency in the image building/pulling processes.
+GCR storesimages in a [Google Storage Bucket](https://cloud.google.com/storage/docs/key-terms#buckets).
 
 In to push images in GCR, you can either rely on various methods including
-* Pushing images in GCR with  Google Cloud container Builder
-* Pushing images into GCR using  docker push command.
-* Pusing images to GCR using Skopeo client
+* Pushing images in GCR with  Google [Cloud container Builder](https://cloud.google.com/container-builder/docs/quickstart-docker)
+* Pushing images into GCR using  [docker push command](https://docs.docker.com/engine/reference/commandline/push/)
+* Pusing images to GCR using [Skopeo client](https://github.com/projectatomic/skopeo)
 
 In the following lines we will see how to push a basic docker images using both methods in GCR
 
-[Cloud Container Builder] (https://cloud.google.com/container-builder/docs/quickstart-docker) 
 
 
 ![](https://github.com/nelvadas/gcloud-containerbuilder-tutorials/raw/master/gcrview.png "Images tags 1.0 and 1.1")
 
 ## Option1: gcloud remote docker build
 
+
 ```
 $ gcloud container builds submit --tag gcr.io/devoxx-201614/gc-cb-hello:1.0
+```
+Run the previous command from your cloud shell terminal.
+The command trigger a remote docker build+tag on GCP and store your image in a  [Google Storage Bucket](https://cloud.google.com/storage/docs/key-terms#buckets)
+*gs://devoxx-201614_cloudbuild/* in this case
 
+```
 Creating temporary tarball archive of 2 file(s) totalling 137 bytes before compression.
 Uploading tarball of [.] to [gs://devoxx-201614_cloudbuild/source/1526591541.15-75cfe5f14b4d4db488e557c9225b5f0b.tgz]
 Created [https://cloudbuild.googleapis.com/v1/projects/devoxx-201614/builds/c36d6c03-70d4-49b3-81f8-9a8e06a8abef].
