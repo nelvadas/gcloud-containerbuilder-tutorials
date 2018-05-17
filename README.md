@@ -131,9 +131,6 @@ Once installed, you can use the tradictionnal docker pull/push command with GCR 
 ```
 $ docker push  gcr.io/devoxx-201614/gc-cb-hello:1.1
 ```
-* devoxx-201614 represents the project id
-* gc-cb-hello the image name
-* 1.1 : image tag
 
 ```
 The push refers to repository [gcr.io/devoxx-201614/gc-cb-hello]
@@ -141,7 +138,9 @@ The push refers to repository [gcr.io/devoxx-201614/gc-cb-hello]
 352831fe6af7: Pushed 
 cd7100a72410: Layer already exists 
 ```
-
+ * devoxx-201614 represents the project id
+ * gc-cb-hello the image name
+ * 1.1 : image tag
 
 ## Using Skopeo <a name="skopeo"/>
 ==================== In progress ======================
