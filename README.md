@@ -1,10 +1,8 @@
-
-# Table of Contents
+# Landing of container's images on Google Container Registry
 1. [Google Cloud Builder](#gcb)
 2. [Docker push](#dockerpush)
 3. [Skopeo](#skopeo)
 
-# Landing of container's images on Google Container Registry
 
 Google Cloud Platform (GCP) offers various services to build and host containers apps including a private container registry: Google Container Registry (GCR).
 In case you want to deploy a cloud app on GCP, it may be a good idea to have a local container registry in GCP infrastructure.
@@ -22,7 +20,7 @@ In the following lines we will see how to push a basic docker images using both 
 
 ![](https://github.com/nelvadas/gcloud-containerbuilder-tutorials/raw/master/gcrview.png "Images tags 1.0 and 1.1")
 
-## Option1: gcloud remote docker build
+## Option1: gcloud remote docker build <a name="gcb"/>
 
 
 ```
@@ -84,7 +82,7 @@ c36d6c03-70d4-49b3-81f8-9a8e06a8abef  2018-05-17T21:12:24+00:00  11S       gs://
 ```
 
 
-##  Local docker build + docker push in gcr.io
+##  Local docker build + docker push in gcr.io  <a name="dockerpush"/>
 
 ### Build from Dockerfile on your localhost
 ```
@@ -127,7 +125,7 @@ cd7100a72410: Layer already exists
 ```
 
 
-## Using Skopeo
+## Using Skopeo <a name="skopeo"/>
 ==================== In progress ======================
 
 
