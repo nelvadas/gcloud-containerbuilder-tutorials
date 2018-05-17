@@ -1,4 +1,4 @@
-# Landing of container's images on Google Container Registry
+# Landing of container images on Google Container Registry
 1. [Google Cloud Builder](#gcb)
 2. [Docker push](#dockerpush)
 3. [Skopeo](#skopeo)
@@ -20,10 +20,21 @@ In the following lines we will see how to push a basic docker images using both 
 
 ![](https://github.com/nelvadas/gcloud-containerbuilder-tutorials/raw/master/gcrview.png "Images tags 1.0 and 1.1")
 
-## Option1: gcloud remote docker build <a name="gcb"/>
+## GCloud remote docker build <a name="gcb"/>
 
-
+Let's authenticate on gcloud and select the  devoxx-201614 project
 ```
+$ gcloud config set project devoxx-201614
+```
+
+
+
+
+we can release the tag 1.0 for  this image in grc.io using 
+ 
+```
+$ git clone https://github.com/nelvadas/gcloud-containerbuilder-tutorials.git
+$ cd gcloud-containerbuilder-tutorials/docker
 $ gcloud container builds submit --tag gcr.io/devoxx-201614/gc-cb-hello:1.0
 ```
 Run the previous command from your cloud shell terminal.
@@ -114,10 +125,17 @@ Hello, world! The time is Thu May 17 15:26:27 UTC 2018.
 
 ### Push the image in GCR.IO
 
-Make sure your docker daemon can connect to GCR by installing  [GCR Docker credential addons](https://github.com/GoogleCloudPlatform/docker-credential-gcr)
+Make sure your docker daemon can securely connect to GCR by installing  [GCR Docker credential addons](https://github.com/GoogleCloudPlatform/docker-credential-gcr) as described in the readme section.
+Once installed, you can use the tradictionnal docker pull/push command with GCR urls.
 
 ```
 $ docker push  gcr.io/devoxx-201614/gc-cb-hello:1.1
+```
+* devoxx-201614 represents the project id
+* gc-cb-hello the image name
+* 1.1 : image tag
+
+```
 The push refers to repository [gcr.io/devoxx-201614/gc-cb-hello]
 55af4a1634d5: Pushed 
 352831fe6af7: Pushed 
