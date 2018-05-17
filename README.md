@@ -1,13 +1,16 @@
 
-#Build the container image and push it to GCR
+# Build the container image and push it to GCR
 
 GCP offers various services to build and host containers apps including a private container registry GCR.
 In case you want to deploy a k8s cluster on GCP, it may be a good idea to have a local container registry in GCP infrastructure.
 In case you are relying on external registries, you can end up with a high latency when pulling images
 GCR store users images in a Google Storage Bucket.
+
 In to push images in GCR, you can either rely on various methods including
-* Pushing images using  Google Cloud container Builder
-* Pushing images using the traditionnal docker push command.
+* Pushing images in GCR with  Google Cloud container Builder
+* Pushing images into GCR using  docker push command.
+* Pusing images to GCR using Skopeo client
+
 In the following lines we will see how to push a basic docker images using both methods in GCR
 
 [Cloud Container Builder] (https://cloud.google.com/container-builder/docs/quickstart-docker) 
@@ -15,10 +18,9 @@ In the following lines we will see how to push a basic docker images using both 
 
 ![](https://github.com/nelvadas/gcloud-containerbuilder-tutorials/raw/master/gcrview.png "Images tags 1.0 and 1.1")
 
-##Option1: gcloud remote docker build
+## Option1: gcloud remote docker build
 
 ```
-
 $ gcloud container builds submit --tag gcr.io/devoxx-201614/gc-cb-hello:1.0
 
 Creating temporary tarball archive of 2 file(s) totalling 137 bytes before compression.
@@ -72,11 +74,11 @@ c36d6c03-70d4-49b3-81f8-9a8e06a8abef  2018-05-17T21:12:24+00:00  11S       gs://
 ```
 
 
-Option 2: Local docker build + docker push in gcr.io
+##  Local docker build + docker push in gcr.io
 
+### Build from Dockerfile on your localhost
 ```
 $ cd docker
-
 $ docker build -t  gcr.io/devoxx-201614/gc-cb-hello:1.1 .
 Sending build context to Docker daemon  132.6kB
 Step 1/4 : FROM alpine
@@ -93,27 +95,18 @@ Step 4/4 : CMD ["/quickstart.sh"]
 Successfully built 84ad7f553ccc
 Successfully tagged gcr.io/devoxx-201614/gc-cb-hello:1.1
 
-
 ```
 
 
-Run the container locally 
+### Run the container locally 
 ```
 $ docker run  gcr.io/devoxx-201614/gc-cb-hello:1.1
 Hello, world! The time is Thu May 17 15:26:27 UTC 2018.
 ```
 
-Push the image in the registry
+### Push the image in GCR.IO
 
--> Log on to you GCP registry using  [GCR Docker credential addons](https://github.com/GoogleCloudPlatform/docker-credential-gcr)
-
--> Run the image loccaly
-```
-$ docker run  gcr.io/devoxx-201614/gc-cb-hello:1.1
-Hello, world! The time is Thu May 17 15:26:27 UTC 2018.```
-
-
--> Push the image
+Make sure your docker daemon can connect to GCR by installing  [GCR Docker credential addons](https://github.com/GoogleCloudPlatform/docker-credential-gcr)
 
 ```
 $ docker push  gcr.io/devoxx-201614/gc-cb-hello:1.1
@@ -121,8 +114,16 @@ The push refers to repository [gcr.io/devoxx-201614/gc-cb-hello]
 55af4a1634d5: Pushed 
 352831fe6af7: Pushed 
 cd7100a72410: Layer already exists 
-1.1: digest: sha256:25b82bbdcff30cc1fc36072058ed7c319e86674f4d05a04c35327235069200ee size: 942
-MacBook-Pro-de-elvadas:docker enonowog$ 
 ```
 
-![alt text](https://github.com/nelvadas/gcloud-containerbuilder-tutorials/raw/master/docker/dockerpush.png "Logo Title Text 1")
+
+## Using Skopeo
+==================== In progress ======================
+
+
+
+
+Your image tag 1.0 and 1.1 should now be available in Google Container Registry.
+
+
+
