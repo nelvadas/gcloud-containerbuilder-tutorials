@@ -27,9 +27,6 @@ Let's authenticate on gcloud and select the  devoxx-201614 project
 $ gcloud config set project devoxx-201614
 ```
 
-
-
-
 we can release the tag 1.0 for  this image in grc.io using 
  
 ```
@@ -168,19 +165,9 @@ $ skopeo inspect docker://gcr.io/devoxx-201614/gc-cb-hello:1.1
 }
 ```
  
-Build a local gc-cb-hello:1.2 tag  
-```
-
-$ docker build -t  127.0.0.1:5000/gc-cb-hello:1.2 .
-```
-
-copy from various format: oci, tarball, copy the 1.2 to Google container registry using skopeo
+Copy from various format: oci, tarball, copy the 1.2 to GCR
 ```
 $ skopeo  --insecure-policy copy   docker://gcr.io/devoxx-201614/gc-cb-hello:1.1 docker://gcr.io/devoxx-201614/gc-cb-hello:1.2
-```
-
-Skopeo relies on docker configuration previously set to inspect and copy images into your GCR.
-```
 Getting image source signatures
 Skipping fetch of repeat blob sha256:ff3a5c916c92643ff77519ffa742d3ec61b7f591b6b7504599d95a4a41134e28
 Skipping fetch of repeat blob sha256:b86749d6543d3c50e0aa92d7063166f6e368a2ba830a7fa7c3ac1b2bbd427c1d
@@ -190,6 +177,8 @@ Copying config sha256:84ad7f553cccddee5feaf8edc94d9a8fe300bdc761084153677244bd3d
 Writing manifest to image destination
 Storing signatures
 ```
+
+Skopeo relies on docker configuration previously set to inspect and copy images into your GCR.
 WARNING: in your production systems, provide a correct [/etc/containers/policy.json](https://github.com/containers/image/blob/master/docs/policy.json.md) and remove --insecure-policy option.
 the gc-cb-hello image  tags 1.0, 1.1 and 1.2 should now be available in Google Container Registry.
 
