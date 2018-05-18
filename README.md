@@ -143,12 +143,56 @@ cd7100a72410: Layer already exists
  * 1.1 : image tag
 
 ## Using Skopeo <a name="skopeo"/>
-==================== In progress ======================
+you can also rely on [skopeo](https://github.com/projectatomic/skopeo) to inspect and copy images to GCR
 
 
+```
+$ skopeo inspect docker://gcr.io/devoxx-201614/gc-cb-hello:1.1
+{
+    "Name": "gcr.io/devoxx-201614/gc-cb-hello",
+    "Digest": "sha256:25b82bbdcff30cc1fc36072058ed7c319e86674f4d05a04c35327235069200ee",
+    "RepoTags": [
+        "1.0",
+        "1.1"
+    ],
+    "Created": "2018-05-17T15:04:02.2561802Z",
+    "DockerVersion": "18.03.1-ce",
+    "Labels": null,
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Layers": [
+        "sha256:ff3a5c916c92643ff77519ffa742d3ec61b7f591b6b7504599d95a4a41134e28",
+        "sha256:b86749d6543d3c50e0aa92d7063166f6e368a2ba830a7fa7c3ac1b2bbd427c1d",
+        "sha256:60e0bc099b38c8ad8b15687d2efbad90a5a9dcbd129fcc645c69ab69d6cea609"
+    ]
+}
+```
+ 
+Build a local gc-cb-hello:1.2 tag  
+```
 
+$ docker build -t  127.0.0.1:5000/gc-cb-hello:1.2 .
+```
 
-Your image tag 1.0 and 1.1 should now be available in Google Container Registry.
+copy from various format: oci, tarball, copy the 1.2 to Google container registry using skopeo
+```
+$ skopeo  --insecure-policy copy   docker://gcr.io/devoxx-201614/gc-cb-hello:1.1 docker://gcr.io/devoxx-201614/gc-cb-hello:1.2
+```
 
+Skopeo relies on docker configuration previously set to inspect and copy images into your GCR.
+```
+Getting image source signatures
+Skipping fetch of repeat blob sha256:ff3a5c916c92643ff77519ffa742d3ec61b7f591b6b7504599d95a4a41134e28
+Skipping fetch of repeat blob sha256:b86749d6543d3c50e0aa92d7063166f6e368a2ba830a7fa7c3ac1b2bbd427c1d
+Skipping fetch of repeat blob sha256:60e0bc099b38c8ad8b15687d2efbad90a5a9dcbd129fcc645c69ab69d6cea609
+Copying config sha256:84ad7f553cccddee5feaf8edc94d9a8fe300bdc761084153677244bd3dbba811
+ 0 B / 1.99 KB [------------------------------------------------------------] 0s
+Writing manifest to image destination
+Storing signatures
+```
+WARNING: in your production systems, provide a correct [/etc/containers/policy.json](https://github.com/containers/image/blob/master/docs/policy.json.md) and remove --insecure-policy option.
+the gc-cb-hello image  tags 1.0, 1.1 and 1.2 should now be available in Google Container Registry.
+
+---
 
 
